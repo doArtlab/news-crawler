@@ -1,5 +1,5 @@
-from common.config import Config
-from lib.openai_helper import generate_text
+from ..common.config import Config
+from ..lib.openai_helper import generate_text
 import json
 
 def generate_summary(text: str) -> str:

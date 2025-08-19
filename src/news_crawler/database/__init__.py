@@ -1,10 +1,16 @@
 from supabase import create_client, Client, ClientOptions
 from datetime import datetime
-from common.config import Config
+from ..common.config import Config
+import httpx
 
 supabase: Client = create_client(
     Config.supabase_url,
-    Config.supabase_key 
+    Config.supabase_key,
+    options=ClientOptions(
+        httpx_client=httpx.Client(
+            verify=False,
+        ),
+    )
 )
 
 def upsert_cosmetic_news(news: dict):

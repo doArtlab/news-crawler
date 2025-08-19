@@ -3,7 +3,7 @@ name = "news-crawler"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "do",email = "dev@bigodo.co"}
+    {name = "do",email = "do@artlab.ai"}
 ]
 readme = "README.md"
 requires-python = ">=3.13,<4.0"
@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [tool.poetry]
-packages = [{include = "news_crawler", from = "src"}]
+package-mode = false
 
 
 [build-system]

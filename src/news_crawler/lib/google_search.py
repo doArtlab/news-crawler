@@ -1,7 +1,6 @@
-from common.config import Config
+from ..common.config import Config
 import requests
 from urllib.parse import quote
-from datetime import datetime
 
 def search_from_google(query: str, start: int = 0):
     q = quote(query)

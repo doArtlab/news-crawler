@@ -1,5 +1,5 @@
 from openai import OpenAI
-from common.config import Config
+from ..common.config import Config
 
 client = OpenAI(api_key=Config.openai_api_key)
 

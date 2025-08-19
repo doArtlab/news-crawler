@@ -1,7 +1,7 @@
-from lib.google_search import search_from_google
-from helpers.scrap import scrap_news
-from helpers.ai_func import generate_summary, check_relevant_news, check_duplicated_news
-from database import upsert_cosmetic_news, get_cosmetic_news_with_link
+from ..lib.google_search import search_from_google
+from ..helpers.scrap import scrap_news
+from ..helpers.ai_func import generate_summary, check_relevant_news, check_duplicated_news
+from ..database import upsert_cosmetic_news, get_cosmetic_news_with_link
 
 def process_company_news(company_name: str):
     summary_list = []
@@ -31,30 +31,38 @@ def process_company_news(company_name: str):
             summary = summary_set.get("핵심 메시지", "")
             keywords = summary_set.get("키워드", [])
 
-            # TODO: 연관성 높은 뉴스를 필터링
-            if not check_relevant_news(company_name, title, summary):
+            relevant = 1 if check_relevant_news(company_name, title, summary) else 0
+
+            record = {
+                "company": company_name,
+                "published_at": published_at,
+                "press": press,
+                "author": author,
+                "title": title,
+                "content": content,
+                "url": url,
+                "category": category,
+                "summary": summary,
+                "keywords": keywords,
+                "relevant": relevant,
+            }
+
+            if relevant == 0:
+                record["content"] = ""
+                record["summary"] = ""
+                upsert_cosmetic_news(record)
                 continue
 
             # TODO: 중복 기사 제거
             if check_duplicated_news(summary_list, summary):
+                record["content"] = "중복 기사"
+                record["summary"] = "중복 기사"
+                upsert_cosmetic_news(record)
                 continue
 
             summary_list.append(summary)
 
             try:
-                record = {
-                    "company": company_name,
-                    "published_at": published_at,
-                    "press": press,
-                    "author": author,
-                    "title": title,
-                    "content": content,
-                    "url": url,
-                    "category": category,
-                    "summary": summary,
-                    "keywords": keywords,
-                    "relevant": 1,
-                }
                 upsert_cosmetic_news(record)
                 print(f"Upserted record {record}")
             except Exception as e:
