@@ -1,0 +1,2 @@
+src/news_crawler/**/__pycache__/*.pyc
+.env
