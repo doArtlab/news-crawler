@@ -48,15 +48,13 @@ def process_company_news(company_name: str):
             }
 
             if relevant == 0:
-                record["content"] = ""
-                record["summary"] = ""
+                record["content"] = "연관성 낮음 필터링"
                 upsert_cosmetic_news(record)
                 continue
 
             # TODO: 중복 기사 제거
             if check_duplicated_news(summary_list, summary):
-                record["content"] = "중복 기사"
-                record["summary"] = "중복 기사"
+                record["content"] = "중복 기사 필터링"
                 upsert_cosmetic_news(record)
                 continue
 
