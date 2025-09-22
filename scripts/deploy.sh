@@ -1,5 +1,5 @@
 VERSION=$(date +"%Y%m%d%H%M%S")
-NAMESPACE=artlab-cosmax
+NAMESPACE=cosmax-crawler
 IMAGE_NAME=news-crawler
 ECR_URI=270500201376.dkr.ecr.ap-northeast-2.amazonaws.com/$NAMESPACE
 ECR_REPO=$ECR_URI/$IMAGE_NAME
